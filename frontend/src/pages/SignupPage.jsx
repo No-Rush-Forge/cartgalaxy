@@ -14,13 +14,25 @@ import {
 } from "../utils/validators";
 
 const SignupPage = () => {
-   const navigate = useNavigate();
-  const [values, setValues] = useState({ name: "", email: "", password: "", confirm: "" });
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirm: "",
+  });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const validatePhone = (v) =>
+    /^[0-9]{8,15}$/.test(v)
+      ? ""
+      : "Phone number must contain 8 to 15 digits";
+
   const validators = {
     name: validateName,
+    phone: validatePhone,
     email: validateEmail,
     password: validateSignupPassword,
     confirm: (v) => validateConfirm(values.password, v),
@@ -30,22 +42,55 @@ const SignupPage = () => {
     setErrors((e) => ({ ...e, [field]: validators[field](values[field]) }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const newErrors = {
       name: validateName(values.name),
+      phone: validatePhone(values.phone),
       email: validateEmail(values.email),
       password: validateSignupPassword(values.password),
       confirm: validateConfirm(values.password, values.confirm),
     };
+
     setErrors(newErrors);
+
     if (Object.values(newErrors).some(Boolean)) return;
 
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName: values.name,
+          phone: values.phone,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setLoading(false);
+        alert(data.message);
+        return;
+      }
+
+      alert(data.message);
+
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      alert("Unable to connect to server");
+    } finally {
       setLoading(false);
-      // Placeholder success path — wire up to real auth here.
-    }, 1200);
+    }
   };
 
   return (
@@ -57,7 +102,7 @@ const SignupPage = () => {
           subtitle="Set up access to your team's workspace."
         />
         <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <FormField
+          {/* <FormField
             id="signup-name"
             label="Full name"
             icon={User}
@@ -67,7 +112,45 @@ const SignupPage = () => {
             onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
             onBlur={handleBlur("name")}
             error={errors.name}
-          />
+          /> */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 16,
+            }}
+          >
+            <FormField
+              id="signup-name"
+              label="Full name"
+              icon={User}
+              placeholder="Enter your full name"
+              value={values.name}
+              autoComplete="name"
+              onChange={(e) =>
+                setValues((v) => ({ ...v, name: e.target.value }))
+              }
+              onBlur={handleBlur("name")}
+              error={errors.name}
+            />
+
+            <FormField
+              id="signup-phone"
+              label="Phone number"
+              icon={User}
+              placeholder="9876543210"
+              value={values.phone}
+              autoComplete="tel"
+              onChange={(e) =>
+                setValues((v) => ({
+                  ...v,
+                  phone: e.target.value.replace(/\D/g, "").slice(0, 15),
+                }))
+              }
+              onBlur={handleBlur("phone")}
+              error={errors.phone}
+            />
+          </div>
           <FormField
             id="signup-email"
             label="Email"

@@ -4,6 +4,7 @@ import GlobalStyle from "./styles/GlobalStyle";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import LandingPage from "./pages/LandingPage"
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
 
       <Routes>
         {/* Redirect "/" to "/login" */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* <Route path="/" element={<Navigate to="/login" replace />} /> */}
+
+        <Route path="/" element={<LandingPage />} />
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
