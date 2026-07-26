@@ -12,7 +12,7 @@ export default {
     },
     extend: {
       colors: {
-        // Core brand tokens for OwnStore — inspired by market signage & printed order tickets
+        // Core brand tokens for cartgalaxy — inspired by market signage & printed order tickets
         ink: {
           DEFAULT: "#16211D",
           light: "#3A4A44",
@@ -48,7 +48,8 @@ export default {
         mono: ["'JetBrains Mono'", "monospace"],
       },
       backgroundImage: {
-        "grain": "radial-gradient(circle at 1px 1px, rgba(22,33,29,0.06) 1px, transparent 0)",
+        grain:
+          "radial-gradient(circle at 1px 1px, rgba(22,33,29,0.06) 1px, transparent 0)",
       },
       keyframes: {
         "fade-up": {
