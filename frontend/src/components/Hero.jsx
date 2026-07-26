@@ -1,5 +1,7 @@
 import { ArrowRight, Check, MessageCircle, Scissors } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const TICKET_LINES = [
   { name: "Handloom Cotton Saree", qty: 1, price: "₹1,899" },
@@ -8,6 +10,9 @@ const TICKET_LINES = [
 ];
 
 const Hero = ({ onGetStarted, onLearnMore })=> {
+
+  const {domainName} = useContext(AuthContext)
+
   return (
     <section id="home" className="relative overflow-hidden bg-textured pb-20 pt-14 md:pb-28 md:pt-20">
       <div
@@ -43,7 +48,7 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
           </h1>
 
           <p className="mt-6 max-w-md text-balance text-lg leading-relaxed text-ink-light dark:text-paper/70">
-            OwnStore turns your shop into a shareable online store — add products, send the
+            {domainName} turns your shop into a shareable online store — add products, send the
             link to customers, and take orders straight to WhatsApp or Email. Nothing to install,
             nothing to configure.
           </p>
@@ -77,7 +82,7 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
           <div className="relative rounded-[28px] border border-ink/10 bg-white/70 p-3 shadow-2xl shadow-teal-900/10 backdrop-blur-sm dark:border-paper/10 dark:bg-night-card/70">
             <div className="rounded-[20px] bg-teal-500 px-5 py-3">
               <p className="font-display text-sm font-semibold text-white/90">Meera's Home Store</p>
-              <p className="font-mono text-[11px] text-white/70">ordered via ownstore.link/meera</p>
+              <p className="font-mono text-[11px] text-white/70">ordered via {domainName}.link/meera</p>
             </div>
 
             {/* printer slot */}

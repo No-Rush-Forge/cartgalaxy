@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "ownstore-theme";
+const STORAGE_KEY = "ownsite-theme";
 
 function getInitialTheme() {
   if (typeof window === "undefined") return "light";

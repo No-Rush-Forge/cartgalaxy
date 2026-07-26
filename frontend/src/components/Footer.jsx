@@ -1,5 +1,8 @@
 // import { Store, Instagram, Twitter, Linkedin } from "lucide-react";
 
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 const QUICK_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Features", href: "#features" },
@@ -16,6 +19,10 @@ const SOCIALS = [
 ];
 
 const Footer = () => {
+
+  const {domainName} = useContext(AuthContext)
+  
+
   return (
     <footer className="bg-textured border-t border-ink/8 dark:border-paper/10">
       <div className="container py-14">
@@ -25,7 +32,7 @@ const Footer = () => {
               <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
                 {/* <Store className="h-4.5 w-4.5" strokeWidth={2.25} /> */}
               </span>
-              OwnStore
+              {domainName}
             </a>
             <p className="mt-4 text-sm leading-relaxed text-ink-light dark:text-paper/60">
               The simplest way for small businesses to sell online — no code, no payment
@@ -76,7 +83,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 border-t border-dashed border-ink/10 pt-6 text-center text-xs text-ink-light dark:border-paper/10 dark:text-paper/50">
-          © {new Date().getFullYear()} OwnStore. All rights reserved.
+          © {new Date().getFullYear()} {domainName}. All rights reserved.
         </div>
       </div>
     </footer>

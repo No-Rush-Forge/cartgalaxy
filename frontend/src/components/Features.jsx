@@ -1,5 +1,7 @@
 import { Store, PackagePlus, Smartphone, MessageCircle, Mail, LayoutDashboard } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const FEATURES = [
   {
@@ -35,6 +37,9 @@ const FEATURES = [
 ];
 
 const Features = () => {
+
+  const {domainName} = useContext(AuthContext)
+
   return (
     <section id="features" className="py-20 md:py-28">
       <div className="container">
@@ -46,7 +51,7 @@ const Features = () => {
             Run your whole shop from one place
           </h2>
           <p className="mt-4 text-balance text-ink-light dark:text-paper/70">
-            OwnStore replaces spreadsheets, screenshots, and scattered chats with one simple
+            {domainName} replaces spreadsheets, screenshots, and scattered chats with one simple
             toolkit built for how small businesses actually sell.
           </p>
         </div>

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Menu, Moon, Store, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/hooks/useTheme";
+import { AuthContext } from "../context/AuthContext";
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
@@ -13,6 +14,9 @@ const NAV_LINKS = [
 ];
 
 const Navbar = ({ onLogin, onGetStarted }) => {
+
+  const {domainName} = useContext(AuthContext)
+
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -35,7 +39,7 @@ const Navbar = ({ onLogin, onGetStarted }) => {
           <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
             <Store className="h-4.5 w-4.5" strokeWidth={2.25} />
           </span>
-          OwnStore
+          {domainName}
         </a>
 
         <nav className="hidden items-center gap-8 md:flex">

@@ -4,7 +4,7 @@ const STEPS = [
   {
     icon: UserPlus,
     title: "Register",
-    description: "Create your OwnStore account in under a minute.",
+    description: "Create your OwnSite account in under a minute.",
   },
   {
     icon: Building2,

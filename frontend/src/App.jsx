@@ -1,12 +1,12 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import GlobalStyle from "./styles/GlobalStyle";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import LandingPage from "./pages/LandingPage"
-import DashboardPage from "./pages/DashboardPage";
-import StoreManagementPage from "./pages/StoreManagementPage";
+import LoginPage from "./pages/Login";
+import SignupPage from "./pages/Signup";
+import ForgotPasswordPage from "./pages/ForgotPassword";
+import LandingPage from "./pages/Home"
+import Dashboard from "./pages/Dashboard";
+import StoreManagementPage from "./pages/Store";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/store" element={<StoreManagementPage />} />
 
         {/* ERROR 404 */}

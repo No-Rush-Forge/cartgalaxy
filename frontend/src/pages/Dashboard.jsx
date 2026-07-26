@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   LayoutDashboard,
   Store,
@@ -14,12 +14,13 @@ import { SubscriptionCard } from "@/components/userDashboard/SubscriptionCard";
 import { StoreCard } from "@/components/userDashboard/StoreCard";
 import { QuickActions } from "@/components/userDashboard/QuickActions";
 import { ActivityCard } from "@/components/userDashboard/ActivityCard";
+import { AuthContext } from "../context/AuthContext";
 
 // ---- Mock data (no backend / no API in this version) ----
 
 const MOCK_USER = {
   fullName: "Ayesha Khan",
-  email: "ayesha@ownstore.app",
+  email: "ayesha@ownsite.app",
   phone: "",
   country: "India",
   state: "Delhi",
@@ -37,7 +38,7 @@ const MOCK_SUBSCRIPTION = {
 // Set MOCK_STORE to `null` below to preview the "no store yet" empty state.
 const MOCK_STORE = {
   name: "Meera's Home Store",
-  url: "ownstore.link/meera",
+  url: "ownsite.link/meera",
   status: "Live",
   logoInitials: "MH",
   productsCount: 24,
@@ -54,6 +55,9 @@ const NAV_ITEMS = [
 ];
 
 function SidebarContent({ onNavigate }) {
+
+  const {domainName} = useContext(AuthContext)
+
   return (
     <div className="flex h-full flex-col">
       <a
@@ -63,7 +67,7 @@ function SidebarContent({ onNavigate }) {
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
           <Store className="h-4.5 w-4.5" strokeWidth={2.25} />
         </span>
-        OwnStore
+        {domainName}
       </a>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
@@ -98,7 +102,7 @@ function SidebarContent({ onNavigate }) {
   );
 }
 
-const DashboardPage = () => {
+const Dashboard = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const hasStore = Boolean(MOCK_STORE);
 
@@ -152,4 +156,4 @@ const DashboardPage = () => {
 }
 
 
-export default DashboardPage
+export default Dashboard

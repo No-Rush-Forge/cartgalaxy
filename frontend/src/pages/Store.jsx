@@ -14,6 +14,8 @@ import { StoreInformation } from "@/components/store/StoreInformation";
 import { ProductsManager } from "@/components/store/ProductsManager";
 import { OrdersManager } from "@/components/store/OrdersManager";
 import { StoreSettings } from "@/components/store/StoreSettings";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 // Set to `null` to simulate a brand-new store (Store Information tab renders empty fields).
 const MOCK_STORE_DATA = {
@@ -21,7 +23,7 @@ const MOCK_STORE_DATA = {
   businessName: "Meera's Home Store",
   businessCategory: "Home Decor",
   businessPhone: "+91 98765 43210",
-  businessEmail: "meera@ownstore.app",
+  businessEmail: "meera@ownsite.app",
   shortDescription: "Handcrafted home decor, made with love.",
   aboutBusiness:
     "We create handmade home decor pieces inspired by Indian craft traditions, made by local artisans.",
@@ -42,6 +44,9 @@ const NAV_ITEMS = [
 ];
 
 const SidebarContent = ({ onNavigate }) => {
+
+  const { domainName } = useContext(AuthContext)
+
   return (
     <div className="flex h-full flex-col">
       <a
@@ -51,7 +56,7 @@ const SidebarContent = ({ onNavigate }) => {
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
           <Store className="h-4.5 w-4.5" strokeWidth={2.25} />
         </span>
-        OwnStore
+        {domainName}
       </a>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
@@ -62,11 +67,10 @@ const SidebarContent = ({ onNavigate }) => {
               key={item.label}
               href={item.href}
               onClick={onNavigate}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-                item.active
-                  ? "bg-teal-500 text-white shadow-sm shadow-teal-700/20"
-                  : "text-ink/70 hover:bg-ink/5 dark:text-paper/70 dark:hover:bg-paper/10"
-              }`}
+              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${item.active
+                ? "bg-teal-500 text-white shadow-sm shadow-teal-700/20"
+                : "text-ink/70 hover:bg-ink/5 dark:text-paper/70 dark:hover:bg-paper/10"
+                }`}
             >
               <Icon className="h-4.5 w-4.5" strokeWidth={2.1} />
               {item.label}
@@ -87,7 +91,7 @@ const SidebarContent = ({ onNavigate }) => {
   );
 }
 
- const StoreManagementPage = () => {
+const StoreManagementPage = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("information");
   const [storeStatus, setStoreStatus] = useState("Draft");
@@ -135,16 +139,14 @@ const SidebarContent = ({ onNavigate }) => {
               </div>
 
               <span
-                className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider ${
-                  storeStatus === "Published"
-                    ? "border-teal-500/20 bg-teal-50 text-teal-600 dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-100"
-                    : "border-gold-500/20 bg-gold-100 text-gold-600 dark:border-gold-500/20 dark:bg-gold-500/10 dark:text-gold-400"
-                }`}
+                className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-wider ${storeStatus === "Published"
+                  ? "border-teal-500/20 bg-teal-50 text-teal-600 dark:border-teal-500/20 dark:bg-teal-500/10 dark:text-teal-100"
+                  : "border-gold-500/20 bg-gold-100 text-gold-600 dark:border-gold-500/20 dark:bg-gold-500/10 dark:text-gold-400"
+                  }`}
               >
                 <span
-                  className={`h-1.5 w-1.5 rounded-full ${
-                    storeStatus === "Published" ? "bg-teal-500" : "bg-gold-500"
-                  }`}
+                  className={`h-1.5 w-1.5 rounded-full ${storeStatus === "Published" ? "bg-teal-500" : "bg-gold-500"
+                    }`}
                 />
                 {storeStatus}
               </span>

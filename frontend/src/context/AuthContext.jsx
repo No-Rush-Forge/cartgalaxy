@@ -9,6 +9,7 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const domainName = import.meta.env.VITE_DOMAIN_NAME;
 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(
@@ -132,6 +133,7 @@ export const AuthContextProvider = ({ children }) => {
     logout,
 
     navigate,
+    domainName
   };
 
   return (

@@ -1,13 +1,19 @@
+/* eslint-disable no-unused-vars */
 import { Mail, Phone, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const CONTACT_ITEMS = [
-  { icon: Mail, label: "Email", value: "hello@ownstore.app" },
+  { icon: Mail, label: "Email", value: `hello@ownsite.app` },
   { icon: Phone, label: "Phone", value: "+91 98765 43210" },
   { icon: Clock, label: "Business Hours", value: "Mon – Sat, 9:00 AM – 7:00 PM IST" },
 ];
 
 const Contact = ()=> {
+
+  const {domainName} = useContext(AuthContext)
+
   return (
     <section id="contact" className="py-20 md:py-28">
       <div className="container">
