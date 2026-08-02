@@ -8,6 +8,9 @@ import LandingPage from "./pages/Home"
 import Dashboard from "./pages/Dashboard";
 import StoreManagementPage from "./pages/Store";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
+
 function App() {
   return (
     <>
@@ -19,11 +22,11 @@ function App() {
 
         <Route path="/" element={<LandingPage />} />
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+        <Route path="/signup" element={<PublicRoute><SignupPage /></PublicRoute>} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/store" element={<StoreManagementPage />} />
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/store" element={<ProtectedRoute><StoreManagementPage /></ProtectedRoute>} />
 
         {/* ERROR 404 */}
         <Route path="*" element={<Navigate to="/login" replace />} />
