@@ -60,7 +60,7 @@ const SignupPage = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${backendUrl}/auth/register`, {
+      const res = await axios.post(`${backendUrl}/api/auth/register`, {
         fullName: values.name,
         email: values.email,
         password: values.password,
@@ -73,7 +73,7 @@ const SignupPage = () => {
       console.log(res.data);
 
       // // Redirect to login page
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       console.error(error);
       alert("Unable to connect to server");

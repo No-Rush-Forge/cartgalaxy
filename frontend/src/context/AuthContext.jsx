@@ -11,7 +11,9 @@ export const AuthContextProvider = ({ children }) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const domainName = import.meta.env.VITE_DOMAIN_NAME;
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+  JSON.parse(localStorage.getItem("user")) || null
+);
   const [token, setToken] = useState(
     localStorage.getItem("token") || ""
   );
@@ -104,7 +106,7 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(true);
 
       const res = await axios.post(
-        `${backendUrl}/api/auth/signup`,
+        `${backendUrl}/api/auth/register`,
         signupData
       );
 
