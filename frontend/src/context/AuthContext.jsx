@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -17,16 +17,6 @@ export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(
     localStorage.getItem("token") || ""
   );
-
-  useEffect(() => {
-  const storedUser = localStorage.getItem("user");
-  const storedToken = localStorage.getItem("token");
-
-  if (storedUser && storedToken) {
-    setUser(JSON.parse(storedUser));
-    setToken(storedToken);
-  }
-}, []);
 
   const [loading, setLoading] = useState(false);
 
