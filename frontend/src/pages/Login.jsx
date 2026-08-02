@@ -23,10 +23,6 @@ const LoginPage = () => {
   } = useContext(AuthContext);
 
 
-  // useEffect(() => {
-  //   console.log(loginData)
-  // }, [loginData])
-
   return (
     <AuthShell
       topLinkLabel="Sign up →"
