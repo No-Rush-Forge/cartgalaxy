@@ -6,85 +6,74 @@ import CardHeader from "../components/CardHeader";
 import FormField from "../components/FormField";
 import PasswordField from "../components/PasswordField";
 import SubmitButton from "../components/SubmitButton";
+
+import axios from "axios";
+
 import {
   validateName,
   validateEmail,
   validateSignupPassword,
-  validateConfirm,
 } from "../utils/validators";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const SignupPage = () => {
+
+  const { backendUrl } = useContext(AuthContext)
+
   const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
   const [values, setValues] = useState({
     name: "",
-    phone: "",
     email: "",
     password: "",
-    confirm: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const validatePhone = (v) =>
-    /^[0-9]{8,15}$/.test(v)
-      ? ""
-      : "Phone number must contain 8 to 15 digits";
+  // const validators = {
+  //   name: validateName,
+  //   email: validateEmail,
+  //   password: validateSignupPassword,
+  // };
 
-  const validators = {
-    name: validateName,
-    phone: validatePhone,
-    email: validateEmail,
-    password: validateSignupPassword,
-    confirm: (v) => validateConfirm(values.password, v),
-  };
-
-  const handleBlur = (field) => () => {
-    setErrors((e) => ({ ...e, [field]: validators[field](values[field]) }));
-  };
+  // const handleBlur = (field) => () => {
+  //   setErrors((e) => ({ ...e, [field]: validators[field](values[field]) }));
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrors = {
       name: validateName(values.name),
-      phone: validatePhone(values.phone),
       email: validateEmail(values.email),
       password: validateSignupPassword(values.password),
-      confirm: validateConfirm(values.password, values.confirm),
     };
 
     setErrors(newErrors);
 
-    if (Object.values(newErrors).some(Boolean)) return;
+    if (Object.values(newErrors).some(Boolean)) {
+      setSubmitted(true);
+      return
+    };
 
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName: values.name,
-          phone: values.phone,
-          email: values.email,
-          password: values.password,
-        }),
-      });
+      const res = await axios.post(`${backendUrl}/auth/register`, {
+        fullName: values.name,
+        email: values.email,
+        password: values.password,
+      })
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setLoading(false);
-        alert(data.message);
-        return;
+      if (!res.data.success) {
+        console.error(res.data.message)
       }
 
-      alert(data.message);
+      console.log(res.data);
 
-      // Redirect to login page
-      navigate("/login");
+      // // Redirect to login page
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
       alert("Unable to connect to server");
@@ -102,21 +91,11 @@ const SignupPage = () => {
           subtitle="Set up access to your team's workspace."
         />
         <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          {/* <FormField
-            id="signup-name"
-            label="Full name"
-            icon={User}
-            placeholder="Enter your full name"
-            value={values.name}
-            autoComplete="name"
-            onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
-            onBlur={handleBlur("name")}
-            error={errors.name}
-          /> */}
+~
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
+              gridTemplateColumns: "1fr",
               gap: 16,
             }}
           >
@@ -130,25 +109,8 @@ const SignupPage = () => {
               onChange={(e) =>
                 setValues((v) => ({ ...v, name: e.target.value }))
               }
-              onBlur={handleBlur("name")}
+              // onBlur={handleBlur("name")}
               error={errors.name}
-            />
-
-            <FormField
-              id="signup-phone"
-              label="Phone number"
-              icon={User}
-              placeholder="9876543210"
-              value={values.phone}
-              autoComplete="tel"
-              onChange={(e) =>
-                setValues((v) => ({
-                  ...v,
-                  phone: e.target.value.replace(/\D/g, "").slice(0, 15),
-                }))
-              }
-              onBlur={handleBlur("phone")}
-              error={errors.phone}
             />
           </div>
           <FormField
@@ -159,7 +121,7 @@ const SignupPage = () => {
             value={values.email}
             autoComplete="email"
             onChange={(e) => setValues((v) => ({ ...v, email: e.target.value }))}
-            onBlur={handleBlur("email")}
+            // onBlur={handleBlur("email")}
             error={errors.email}
           />
           <PasswordField
@@ -170,20 +132,10 @@ const SignupPage = () => {
             value={values.password}
             autoComplete="new-password"
             onChange={(e) => setValues((v) => ({ ...v, password: e.target.value }))}
-            onBlur={handleBlur("password")}
+            // onBlur={handleBlur("password")}
             error={errors.password}
           />
-          <PasswordField
-            id="signup-confirm"
-            label="Confirm password"
-            icon={Lock}
-            placeholder="Re-enter your password"
-            value={values.confirm}
-            autoComplete="new-password"
-            onChange={(e) => setValues((v) => ({ ...v, confirm: e.target.value }))}
-            onBlur={handleBlur("confirm")}
-            error={errors.confirm}
-          />
+
 
           <p style={{ fontSize: 11.5, color: "var(--ink-2)", margin: "-8px 0 0", lineHeight: 1.5 }}>
             Use 8+ characters with a mix of uppercase, lowercase, a number, and a symbol.

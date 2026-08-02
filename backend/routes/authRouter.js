@@ -1,13 +1,13 @@
 import express from "express";
+import { registerUser, loginUser } from "../controllers/authController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/register", (req, res) => {
-  res.json({
-    success: true,
-    message: "Register route is working",
-    data: req.body,
-  });
-});
+// Register User
+router.post("/register", registerUser);
+
+// Register User
+router.post("/login", loginUser);
 
 export default router;

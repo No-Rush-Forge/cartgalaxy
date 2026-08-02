@@ -149,7 +149,7 @@ const GlobalStyle = () => (
     .btn-primary:active:not(:disabled) { transform:translateY(0); }
     .btn-primary:disabled { opacity:.75; cursor:default; }
     .btn-primary:focus-visible, .input-shell input:focus-visible, .top-link:focus-visible, .icon-btn:focus-visible, .text-link:focus-visible {
-      outline:2px solid var(--amber); outline-offset:2px;
+   
     }
 
     .text-link {

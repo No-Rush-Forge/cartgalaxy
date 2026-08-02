@@ -22,9 +22,10 @@ const LoginPage = () => {
     navigate,
   } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(loginData)
-  }, [loginData])
+
+  // useEffect(() => {
+  //   console.log(loginData)
+  // }, [loginData])
 
   return (
     <AuthShell
@@ -59,8 +60,8 @@ const LoginPage = () => {
                 email: e.target.value,
               })
             }
-            // onBlur={validateEmail(loginData.email)}
-            error={validateEmail(loginData.email)}
+          // onBlur={validateEmail(loginData.email)}
+          // error={validateEmail(loginData.email)}
           />
 
           <div>
@@ -69,7 +70,7 @@ const LoginPage = () => {
               label="Password"
               icon={Lock}
               placeholder="Enter your password"
-              // value={loginData.password}
+              value={loginData.password}
               autoComplete="current-password"
               onChange={(e) =>
                 setLoginData({

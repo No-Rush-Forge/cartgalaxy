@@ -35,7 +35,9 @@ const FormField = ({
           onFocus={() => setFocused(true)}
           onBlur={(e) => {
             setFocused(false);
-            onBlur && onBlur(e);
+            if (e.target.value.trim().length === 0) {
+              onBlur?.(e);
+            }
           }}
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}

@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 import express from "express";
 import cors from "cors";
@@ -23,7 +22,10 @@ app.use(express.json());
 
 // Health check
 app.get("/api/health", (req, res) => {
-  res.json({ success: true, message: "API is running" });
+  res.json({
+    success: true,
+    message: "API is running",
+  });
 });
 
 // Auth routes

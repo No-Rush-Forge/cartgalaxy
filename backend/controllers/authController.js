@@ -1,34 +1,27 @@
 import bcrypt from "bcryptjs";
 import pool from "../config/db.js";
+import jwt from "jsonwebtoken";
 
-export const register = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     // Get values from request
-    const fullName = req.body.fullName?.trim();
-    const phone = req.body.phone?.trim();
-    const email = req.body.email?.trim().toLowerCase();
-    const password = req.body.password;
+
+    console.log("Body:", req.body);
+
+    const { fullName, email, password } = req.body;
 
     // Basic validation
-    if (!fullName || !phone || !email || !password) {
+    if (!fullName || !email || !password) {
       return res.status(400).json({
         success: false,
         message: "All fields are required.",
       });
     }
 
-    // Phone number validation (8 to 15 digits for international support)
-    if (!/^[0-9]{8,15}$/.test(phone)) {
-      return res.status(400).json({
-        success: false,
-        message: "Phone number must contain 8 to 15 digits.",
-      });
-    }
-
     // Check if email already exists
     const existingUser = await pool.query(
       "SELECT user_id FROM users WHERE email = $1",
-      [email]
+      [email],
     );
 
     if (existingUser.rows.length > 0) {
@@ -43,27 +36,18 @@ export const register = async (req, res) => {
 
     // Insert user
     const result = await pool.query(
-      `INSERT INTO users
-      (
-        full_name,
-        phone,
-        email,
-        password_hash
-      )
+      `INSERT INTO users (
+      full_name,
+      email,
+      password_hash)
       VALUES
-      (
-        $1,
-        $2,
-        $3,
-        $4
-      )
+      ($1,$2,$3)
       RETURNING
         user_id,
         full_name,
-        phone,
         email,
         created_at`,
-      [fullName, phone, email, passwordHash]
+      [fullName, email, passwordHash],
     );
 
     const user = result.rows[0];
@@ -73,7 +57,6 @@ export const register = async (req, res) => {
       message: "Account created successfully.",
       data: user,
     });
-
   } catch (error) {
     console.error("Register Error:", error);
 
@@ -83,3 +66,98 @@ export const register = async (req, res) => {
     });
   }
 };
+
+// Login
+// const loginUser = async (req, res) => {
+//   try {
+//   } catch (err) {
+//     console.log(err.message);
+
+//     return res.json({
+//       success: false,
+//       message: "Internal server error.",
+//     });
+//   }
+// };
+
+// Login
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and Password are required.",
+      });
+    }
+
+    // Find user
+    const result = await pool.query(
+      `SELECT *
+       FROM users
+       WHERE email = $1`,
+      [email.toLowerCase()],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password.",
+      });
+    }
+
+    const user = result.rows[0];
+
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password.",
+      });
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+      {
+        user_id: user.user_id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
+
+    // Update last login (optional for now)
+    await pool.query(
+      `UPDATE users
+   SET last_login = NOW()
+   WHERE user_id = $1`,
+      [user.user_id],
+    );
+
+    return res.json({
+      success: true,
+      message: "Login Successful.",
+      token,
+      user: {
+        user_id: user.user_id,
+        full_name: user.full_name,
+        email: user.email,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error.",
+    });
+  }
+};
+
+export { registerUser, loginUser };
