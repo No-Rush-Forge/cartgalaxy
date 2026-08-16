@@ -1,12 +1,6 @@
 import { useState } from "react";
 import {
-  LayoutDashboard,
-  Store,
-  ShoppingBag,
-  CreditCard,
-  User,
-  LogOut,
-  Menu,
+  Menu
 } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { StoreTabs } from "@/components/store/StoreTabs";
@@ -14,8 +8,8 @@ import { StoreInformation } from "@/components/store/StoreInformation";
 import { ProductsManager } from "@/components/store/ProductsManager";
 import { OrdersManager } from "@/components/store/OrdersManager";
 import { StoreSettings } from "@/components/store/StoreSettings";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import Sidebar from "../components/SideBar";
+
 
 // Set to `null` to simulate a brand-new store (Store Information tab renders empty fields).
 const MOCK_STORE_DATA = {
@@ -35,61 +29,6 @@ const MOCK_STORE_DATA = {
   customUrl: "meera-home-store",
 };
 
-const NAV_ITEMS = [
-  { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-  { label: "My Store", icon: Store, href: "/dashboard/store", active: true },
-  { label: "Orders", icon: ShoppingBag, href: "/orders" },
-  { label: "Subscription", icon: CreditCard, href: "/subscription" },
-  { label: "Profile", icon: User, href: "/profile" },
-];
-
-const SidebarContent = ({ onNavigate }) => {
-
-  const { domainName } = useContext(AuthContext)
-
-  return (
-    <div className="flex h-full flex-col">
-      <a
-        href="/"
-        className="flex items-center gap-2 px-1 font-display text-lg font-semibold tracking-tight text-ink dark:text-paper"
-      >
-        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
-          <Store className="h-4.5 w-4.5" strokeWidth={2.25} />
-        </span>
-        {domainName}
-      </a>
-
-      <nav className="mt-8 flex flex-1 flex-col gap-1">
-        {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
-          return (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={onNavigate}
-              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${item.active
-                ? "bg-teal-500 text-white shadow-sm shadow-teal-700/20"
-                : "text-ink/70 hover:bg-ink/5 dark:text-paper/70 dark:hover:bg-paper/10"
-                }`}
-            >
-              <Icon className="h-4.5 w-4.5" strokeWidth={2.1} />
-              {item.label}
-            </a>
-          );
-        })}
-      </nav>
-
-      <button
-        type="button"
-        onClick={() => console.log("Logout")}
-        className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 transition-colors hover:bg-ink/5 hover:text-ink dark:text-paper/60 dark:hover:bg-paper/10 dark:hover:text-paper"
-      >
-        <LogOut className="h-4.5 w-4.5" strokeWidth={2.1} />
-        Logout
-      </button>
-    </div>
-  );
-}
 
 const StoreManagementPage = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -106,13 +45,13 @@ const StoreManagementPage = () => {
       <div className="mx-auto flex max-w-[1400px]">
         {/* Desktop sidebar */}
         <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-ink/8 bg-paper/60 px-5 py-6 dark:border-paper/10 dark:bg-night/60 lg:flex">
-          <SidebarContent />
+          <Sidebar />
         </aside>
 
         {/* Mobile / tablet sidebar */}
         <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
           <SheetContent>
-            <SidebarContent onNavigate={() => setMobileNavOpen(false)} />
+            <Sidebar onNavigate={() => setMobileNavOpen(false)} />
           </SheetContent>
         </Sheet>
 

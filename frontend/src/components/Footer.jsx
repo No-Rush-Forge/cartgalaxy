@@ -2,6 +2,8 @@
 
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { NavLink } from "react-router-dom";
+
 
 const QUICK_LINKS = [
   { label: "Home", href: "#home" },
@@ -28,12 +30,12 @@ const Footer = () => {
       <div className="container py-14">
         <div className="flex flex-col items-start justify-between gap-10 md:flex-row">
           <div className="max-w-xs">
-            <a href="#home" className="flex items-center gap-2 font-display text-lg font-semibold text-ink dark:text-paper">
+            <NavLink to="/" className="flex items-center gap-2 font-display text-lg font-semibold text-ink dark:text-paper">
               <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
                 {/* <Store className="h-4.5 w-4.5" strokeWidth={2.25} /> */}
               </span>
               {domainName}
-            </a>
+            </NavLink>
             <p className="mt-4 text-sm leading-relaxed text-ink-light dark:text-paper/60">
               The simplest way for small businesses to sell online — no code, no payment
               gateway, just a store link you can share today.

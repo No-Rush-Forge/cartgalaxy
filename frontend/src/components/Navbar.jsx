@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useTheme } from "@/hooks/useTheme";
 import { AuthContext } from "../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
@@ -14,8 +15,7 @@ const NAV_LINKS = [
 ];
 
 const Navbar = ({ onLogin, onGetStarted }) => {
-
-  const {domainName} = useContext(AuthContext)
+  const { domainName } = useContext(AuthContext);
 
   const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
@@ -35,12 +35,15 @@ const Navbar = ({ onLogin, onGetStarted }) => {
         }`}
     >
       <div className="container flex h-16 items-center justify-between">
-        <a href="#home" className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight">
+        <NavLink
+          to="/store"
+          className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight"
+        >
           <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-teal-500 text-white">
             <Store className="h-4.5 w-4.5" strokeWidth={2.25} />
           </span>
           {domainName}
-        </a>
+        </NavLink>
 
         <nav className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
@@ -60,7 +63,11 @@ const Navbar = ({ onLogin, onGetStarted }) => {
             aria-label="Toggle theme"
             className="flex h-9 w-9 items-center justify-center rounded-full text-ink/70 transition hover:bg-ink/5 dark:text-paper/70 dark:hover:bg-paper/10"
           >
-            {theme === "dark" ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
+            {theme === "dark" ? (
+              <Sun className="h-4.5 w-4.5" />
+            ) : (
+              <Moon className="h-4.5 w-4.5" />
+            )}
           </button>
           <Button variant="ghost" size="sm" onClick={onLogin}>
             Login
@@ -76,7 +83,11 @@ const Navbar = ({ onLogin, onGetStarted }) => {
             aria-label="Toggle theme"
             className="flex h-9 w-9 items-center justify-center rounded-full text-ink/70 dark:text-paper/70"
           >
-            {theme === "dark" ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
+            {theme === "dark" ? (
+              <Sun className="h-4.5 w-4.5" />
+            ) : (
+              <Moon className="h-4.5 w-4.5" />
+            )}
           </button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -112,7 +123,6 @@ const Navbar = ({ onLogin, onGetStarted }) => {
       </div>
     </header>
   );
-}
+};
 
-
-export default Navbar
+export default Navbar;

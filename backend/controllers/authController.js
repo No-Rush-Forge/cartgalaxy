@@ -12,7 +12,7 @@ const registerUser = async (req, res) => {
 
     // Basic validation
     if (!fullName || !email || !password) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         message: "All fields are required.",
       });
@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
     );
 
     if (existingUser.rows.length > 0) {
-      return res.status(409).json({
+      return res.json({
         success: false,
         message: "Email is already registered.",
       });
@@ -52,7 +52,7 @@ const registerUser = async (req, res) => {
 
     const user = result.rows[0];
 
-    return res.status(201).json({
+    return res.json({
       success: true,
       message: "Account created successfully.",
       data: user,

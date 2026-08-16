@@ -3,6 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Search, Plus, Pencil, Trash2, Package, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Toggle from "@/components/ui/Toggle";
 
 const MOCK_PRODUCTS = [
   { id: 1, name: "Handloom Cotton Saree", price: 1899, category: "Apparel", available: true },
@@ -18,28 +19,6 @@ const CATEGORIES = ["All", "Apparel", "Home Decor", "Decor"];
 const inputClass =
   "w-full rounded-xl border border-ink/10 bg-transparent px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/35 transition focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:border-paper/15 dark:text-paper dark:placeholder:text-paper/30";
 
-function Toggle({ checked, onChange, label }) {
-  return (
-    <label className="flex cursor-pointer items-center gap-3">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-          checked ? "bg-teal-500" : "bg-ink/15 dark:bg-paper/20"
-        }`}
-      >
-        <span
-          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
-            checked ? "translate-x-[22px]" : "translate-x-0.5"
-          }`}
-        />
-      </button>
-      {label && <span className="text-sm font-medium text-ink dark:text-paper">{label}</span>}
-    </label>
-  );
-}
 
 function ProductModal({ open, onOpenChange, onSave }) {
   const [draft, setDraft] = useState({
@@ -222,11 +201,10 @@ export function ProductsManager() {
                     {product.name}
                   </h3>
                   <span
-                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
-                      product.available
-                        ? "bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-100"
-                        : "bg-ink/5 text-ink/45 dark:bg-paper/10 dark:text-paper/45"
-                    }`}
+                    className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${product.available
+                      ? "bg-teal-50 text-teal-600 dark:bg-teal-500/10 dark:text-teal-100"
+                      : "bg-ink/5 text-ink/45 dark:bg-paper/10 dark:text-paper/45"
+                      }`}
                   >
                     {product.available ? "Available" : "Unavailable"}
                   </span>

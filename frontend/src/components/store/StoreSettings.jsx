@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Toggle from "@/components/ui/Toggle";
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const CURRENCIES = [
@@ -44,28 +45,6 @@ function Field({ label, className = "", children }) {
   );
 }
 
-function Toggle({ checked, onChange, label }) {
-  return (
-    <label className="flex cursor-pointer items-center gap-3">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-          checked ? "bg-teal-500" : "bg-ink/15 dark:bg-paper/20"
-        }`}
-      >
-        <span
-          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
-            checked ? "translate-x-[22px]" : "translate-x-0.5"
-          }`}
-        />
-      </button>
-      {label && <span className="text-sm font-medium text-ink dark:text-paper">{label}</span>}
-    </label>
-  );
-}
 
 function SettingsCard({ title, description, children }) {
   return (
@@ -97,11 +76,10 @@ export function StoreSettings({ onSave }) {
                 key={option}
                 type="button"
                 onClick={() => set("status", option)}
-                className={`rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
-                  settings.status === option
-                    ? "bg-teal-500 text-white shadow-sm shadow-teal-700/20"
-                    : "border border-ink/10 text-ink/60 hover:bg-ink/5 dark:border-paper/15 dark:text-paper/60 dark:hover:bg-paper/10"
-                }`}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${settings.status === option
+                  ? "bg-teal-500 text-white shadow-sm shadow-teal-700/20"
+                  : "border border-ink/10 text-ink/60 hover:bg-ink/5 dark:border-paper/15 dark:text-paper/60 dark:hover:bg-paper/10"
+                  }`}
               >
                 {option}
               </button>
@@ -110,7 +88,8 @@ export function StoreSettings({ onSave }) {
           <Toggle
             checked={settings.isOpen}
             onChange={(val) => set("isOpen", val)}
-            label={settings.isOpen ? "Open for orders" : "Closed"}
+            label={"Open for orders"}
+          // label={settings.isOpen ? "Open for orders" : "Closed"}
           />
         </div>
       </SettingsCard>

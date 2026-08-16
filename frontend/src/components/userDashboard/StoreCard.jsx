@@ -1,8 +1,20 @@
-import { Store, ExternalLink, Pencil, Package, ShoppingBag, Users } from "lucide-react";
+import {
+  Store,
+  ExternalLink,
+  Pencil,
+  Package,
+  ShoppingBag,
+  Users,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 export function StoreCard({ store }) {
+  const { frontendUrl } = useContext(AuthContext);
+
   if (!store) {
     return (
       <Card className="flex flex-col items-center justify-center gap-5 px-6 py-16 text-center">
@@ -14,10 +26,14 @@ export function StoreCard({ store }) {
             You haven't created your first store.
           </p>
           <p className="mx-auto mt-1.5 max-w-xs text-sm text-ink-light dark:text-paper/60">
-            Set up your storefront in minutes and start sharing it with customers.
+            Set up your storefront in minutes and start sharing it with
+            customers.
           </p>
         </div>
-        <Button size="lg" onClick={() => (window.location.href = "/create-store")}>
+        <Button
+          size="lg"
+          onClick={() => (window.location.href = "/create-store")}
+        >
           Create Store
         </Button>
       </Card>
@@ -41,7 +57,9 @@ export function StoreCard({ store }) {
             <p className="font-display text-lg font-semibold text-ink dark:text-paper">
               {store.name}
             </p>
-            <p className="font-mono text-xs text-ink-light dark:text-paper/55">{store.url}</p>
+            <p className="font-mono text-xs text-ink-light dark:text-paper/55">
+              {store.url}
+            </p>
           </div>
         </div>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-600 dark:bg-teal-500/10 dark:text-teal-100">
@@ -58,20 +76,28 @@ export function StoreCard({ store }) {
               key={stat.label}
               className="rounded-2xl border border-dashed border-ink/10 px-4 py-4 text-center dark:border-paper/10"
             >
-              <Icon className="mx-auto h-4.5 w-4.5 text-teal-500" strokeWidth={2} />
+              <Icon
+                className="mx-auto h-4.5 w-4.5 text-teal-500"
+                strokeWidth={2}
+              />
               <p className="mt-2 font-mono text-xl font-semibold text-ink dark:text-paper">
                 {stat.value}
               </p>
-              <p className="text-xs text-ink-light dark:text-paper/55">{stat.label}</p>
+              <p className="text-xs text-ink-light dark:text-paper/55">
+                {stat.label}
+              </p>
             </div>
           );
         })}
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <Button className="flex-1" onClick={() => window.open(`https://${store.url}`, "_blank")}>
-          <ExternalLink className="h-4 w-4" /> Open Store
-        </Button>
+        <NavLink className="flex-1" to={`${frontendUrl}/store/${store.url}`}>
+          <Button className="w-full">
+            <ExternalLink className="h-4 w-4" /> Open Store
+          </Button>
+        </NavLink>
+
         <Button
           variant="outline"
           className="flex-1"

@@ -13,6 +13,8 @@ const FIELDS = [
 ];
 
 export function ProfileCard({ profile, onCompleteProfile }) {
+
+  console.log(profile);
   const completedCount = FIELDS.filter((field) => Boolean(profile[field.key])).length;
   const percent = Math.round((completedCount / FIELDS.length) * 100);
   const isComplete = completedCount === FIELDS.length;

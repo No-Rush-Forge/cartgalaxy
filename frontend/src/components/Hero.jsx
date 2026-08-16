@@ -9,12 +9,14 @@ const TICKET_LINES = [
   { name: "Clay Diffuser Set", qty: 1, price: "₹560" },
 ];
 
-const Hero = ({ onGetStarted, onLearnMore })=> {
-
-  const {domainName} = useContext(AuthContext)
+const Hero = ({ onGetStarted, onLearnMore }) => {
+  const { domainName } = useContext(AuthContext);
 
   return (
-    <section id="home" className="relative overflow-hidden bg-textured pb-20 pt-14 md:pb-28 md:pt-20">
+    <section
+      id="home"
+      className="relative overflow-hidden bg-textured pb-20 pt-14 md:pb-28 md:pt-20"
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute -top-32 right-[-10%] h-96 w-96 rounded-full bg-gold-400/20 blur-3xl"
@@ -41,16 +43,21 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
                 fill="none"
                 preserveAspectRatio="none"
               >
-                <path d="M2 9C40 2 160 2 198 9" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                <path
+                  d="M2 9C40 2 160 2 198 9"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
               </svg>
             </span>
             in minutes.
           </h1>
 
           <p className="mt-6 max-w-md text-balance text-lg leading-relaxed text-ink-light dark:text-paper/70">
-            {domainName} turns your shop into a shareable online store — add products, send the
-            link to customers, and take orders straight to WhatsApp or Email. Nothing to install,
-            nothing to configure.
+            {domainName} turns your shop into a shareable online store — add
+            products, send the link to customers, and take orders straight to
+            WhatsApp or Email. Nothing to install, nothing to configure.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -81,8 +88,12 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
         <div className="relative mx-auto w-full max-w-sm animate-float-slow md:max-w-md">
           <div className="relative rounded-[28px] border border-ink/10 bg-white/70 p-3 shadow-2xl shadow-teal-900/10 backdrop-blur-sm dark:border-paper/10 dark:bg-night-card/70">
             <div className="rounded-[20px] bg-teal-500 px-5 py-3">
-              <p className="font-display text-sm font-semibold text-white/90">Meera's Home Store</p>
-              <p className="font-mono text-[11px] text-white/70">ordered via {domainName}.link/meera</p>
+              <p className="font-display text-sm font-semibold text-white/90">
+                Meera's Home Store
+              </p>
+              <p className="font-mono text-[11px] text-white/70">
+                ordered via {domainName}.link/meera
+              </p>
             </div>
 
             {/* printer slot */}
@@ -91,7 +102,9 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
             {/* the ticket, "printing" out */}
             <div className="relative mt-1 animate-print-out rounded-b-xl bg-receipt p-5 font-mono text-ink shadow-inner">
               <div className="perforated-edge -mt-5 mb-3" />
-              <p className="text-xs uppercase tracking-widest text-ink/50">New order · #0842</p>
+              <p className="text-xs uppercase tracking-widest text-ink/50">
+                New order · #0842
+              </p>
               <div className="mt-4 space-y-3">
                 {TICKET_LINES.map((line, i) => (
                   <div
@@ -101,9 +114,13 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
                   >
                     <span className="leading-tight">
                       {line.name}
-                      <span className="block text-xs text-ink/50">Qty {line.qty}</span>
+                      <span className="block text-xs text-ink/50">
+                        Qty {line.qty}
+                      </span>
                     </span>
-                    <span className="whitespace-nowrap font-semibold">{line.price}</span>
+                    <span className="whitespace-nowrap font-semibold">
+                      {line.price}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -132,7 +149,6 @@ const Hero = ({ onGetStarted, onLearnMore })=> {
       </div>
     </section>
   );
-}
+};
 
-
-export default Hero
+export default Hero;

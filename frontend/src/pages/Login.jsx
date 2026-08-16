@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Mail, Lock, AlertCircle } from "lucide-react";
 
 import { AuthContext } from "../context/AuthContext";

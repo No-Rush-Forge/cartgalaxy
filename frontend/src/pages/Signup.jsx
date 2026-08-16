@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Mail, Lock, User } from "lucide-react";
 import AuthShell from "../components/AuthShell";
@@ -6,81 +5,14 @@ import CardHeader from "../components/CardHeader";
 import FormField from "../components/FormField";
 import PasswordField from "../components/PasswordField";
 import SubmitButton from "../components/SubmitButton";
-
-import axios from "axios";
-
-import {
-  validateName,
-  validateEmail,
-  validateSignupPassword,
-} from "../utils/validators";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const SignupPage = () => {
 
-  const { backendUrl } = useContext(AuthContext)
+  const { signup, signupData, setSignupData, loading } = useContext(AuthContext)
 
-  const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
-  const [values, setValues] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  // const validators = {
-  //   name: validateName,
-  //   email: validateEmail,
-  //   password: validateSignupPassword,
-  // };
-
-  // const handleBlur = (field) => () => {
-  //   setErrors((e) => ({ ...e, [field]: validators[field](values[field]) }));
-  // };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const newErrors = {
-      name: validateName(values.name),
-      email: validateEmail(values.email),
-      password: validateSignupPassword(values.password),
-    };
-
-    setErrors(newErrors);
-
-    if (Object.values(newErrors).some(Boolean)) {
-      setSubmitted(true);
-      return
-    };
-
-    setLoading(true);
-
-    try {
-      const res = await axios.post(`${backendUrl}/api/auth/register`, {
-        fullName: values.name,
-        email: values.email,
-        password: values.password,
-      })
-
-      if (!res.data.success) {
-        console.error(res.data.message)
-      }
-
-      console.log(res.data);
-
-      // // Redirect to login page
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-      alert("Unable to connect to server");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const navigate = useNavigate()
 
   return (
     <AuthShell topLinkLabel="Log in →" topLinkAction={() => navigate("/login")}>
@@ -90,8 +22,7 @@ const SignupPage = () => {
           title="Create your account"
           subtitle="Set up access to your team's workspace."
         />
-        <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-~
+        <form onSubmit={signup} noValidate style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div
             style={{
               display: "grid",
@@ -104,13 +35,16 @@ const SignupPage = () => {
               label="Full name"
               icon={User}
               placeholder="Enter your full name"
-              value={values.name}
+              value={signupData.fullName}
               autoComplete="name"
               onChange={(e) =>
-                setValues((v) => ({ ...v, name: e.target.value }))
+                setSignupData({
+                  ...signupData,
+                  fullName: e.target.value,
+                })
               }
-              // onBlur={handleBlur("name")}
-              error={errors.name}
+            // onBlur={handleBlur("name")}
+
             />
           </div>
           <FormField
@@ -118,22 +52,22 @@ const SignupPage = () => {
             label="Email"
             icon={Mail}
             placeholder="Enter your email"
-            value={values.email}
+            value={signupData.email}
             autoComplete="email"
-            onChange={(e) => setValues((v) => ({ ...v, email: e.target.value }))}
-            // onBlur={handleBlur("email")}
-            error={errors.email}
+            onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+          // onBlur={handleBlur("email")}
+
           />
           <PasswordField
             id="signup-password"
             label="Password"
             icon={Lock}
             placeholder="Create a password"
-            value={values.password}
+            value={signupData.password}
             autoComplete="new-password"
-            onChange={(e) => setValues((v) => ({ ...v, password: e.target.value }))}
-            // onBlur={handleBlur("password")}
-            error={errors.password}
+            onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+          // onBlur={handleBlur("password")}
+
           />
 
 

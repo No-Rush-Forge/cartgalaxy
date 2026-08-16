@@ -15,6 +15,7 @@ import { StoreCard } from "@/components/userDashboard/StoreCard";
 import { QuickActions } from "@/components/userDashboard/QuickActions";
 import { ActivityCard } from "@/components/userDashboard/ActivityCard";
 import { AuthContext } from "../context/AuthContext";
+import Sidebar from "../components/SideBar";
 
 // ---- Mock data (no backend / no API in this version) ----
 
@@ -37,8 +38,8 @@ const MOCK_SUBSCRIPTION = {
 
 // Set MOCK_STORE to `null` below to preview the "no store yet" empty state.
 const MOCK_STORE = {
-  name: "Meera's Home Store",
-  url: "ownsite.link/meera",
+  name: "Meera Electronics",
+  url: "meera-electronics",
   status: "Live",
   logoInitials: "MH",
   productsCount: 24,
@@ -56,7 +57,7 @@ const NAV_ITEMS = [
 
 function SidebarContent({ onNavigate }) {
 
-  const {domainName} = useContext(AuthContext)
+  const { domainName, logout } = useContext(AuthContext)
 
   return (
     <div className="flex h-full flex-col">
@@ -92,7 +93,10 @@ function SidebarContent({ onNavigate }) {
 
       <button
         type="button"
-        onClick={() => console.log("Logout")}
+        onClick={() => {
+          console.log(logout);
+          logout()
+        }}
         className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-ink/60 transition-colors hover:bg-ink/5 hover:text-ink dark:text-paper/60 dark:hover:bg-paper/10 dark:hover:text-paper"
       >
         <LogOut className="h-4.5 w-4.5" strokeWidth={2.1} />
@@ -103,6 +107,7 @@ function SidebarContent({ onNavigate }) {
 }
 
 const Dashboard = () => {
+  const { user } = useContext(AuthContext)
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const hasStore = Boolean(MOCK_STORE);
 
@@ -111,7 +116,7 @@ const Dashboard = () => {
       <div className="mx-auto flex max-w-[1400px]">
         {/* Desktop sidebar */}
         <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-ink/8 bg-paper/60 px-5 py-6 dark:border-paper/10 dark:bg-night/60 lg:flex">
-          <SidebarContent />
+          <Sidebar />
         </aside>
 
         {/* Mobile / tablet sidebar */}
@@ -125,7 +130,7 @@ const Dashboard = () => {
         <main className="flex-1 px-5 py-8 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-6xl space-y-8">
             <DashboardHeader
-              userName={MOCK_USER.fullName}
+              userName={user?.full_name}
               plan={MOCK_SUBSCRIPTION.plan}
               onMenuClick={() => setMobileNavOpen(true)}
             />
@@ -139,7 +144,7 @@ const Dashboard = () => {
 
               <div className="space-y-6">
                 <ProfileCard
-                  profile={MOCK_USER}
+                  profile={user}
                   onCompleteProfile={() => (window.location.href = "/profile")}
                 />
                 <SubscriptionCard

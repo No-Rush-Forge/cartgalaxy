@@ -9,14 +9,13 @@ export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const frontendUrl = import.meta.env.VITE_FRONTEND_URL;
   const domainName = import.meta.env.VITE_DOMAIN_NAME;
 
   const [user, setUser] = useState(
-  JSON.parse(localStorage.getItem("user")) || null
-);
-  const [token, setToken] = useState(
-    localStorage.getItem("token") || ""
+    JSON.parse(localStorage.getItem("user")) || null,
   );
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const [loading, setLoading] = useState(false);
 
@@ -26,91 +25,60 @@ export const AuthContextProvider = ({ children }) => {
   });
 
   const [signupData, setSignupData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const [forgotEmail, setForgotEmail] = useState("");
 
   // Login
-  // const login = async () => {
-  //   try {
-  //     setLoading(true);
-
-  //     const res = await axios.post(
-  //       `${backendUrl}/api/auth/login`,
-  //       loginData
-  //     );
-
-  //     if (res.data.success) {
-  //       localStorage.setItem("token", res.data.token);
-
-  //       setToken(res.data.token);
-  //       setUser(res.data.user);
-
-  //       navigate("/");
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const login = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const res = await axios.post(
-      `${backendUrl}/api/auth/login`,
-      loginData
-    );
+      const res = await axios.post(`${backendUrl}/api/auth/login`, loginData);
 
-    if (res.data.success) {
-      // Save token
-      localStorage.setItem("token", res.data.token);
+      if (res.data.success) {
+        setLoginData({ password: "", email: "" });
 
-      // Save user details
-      localStorage.setItem(
-        "user",
-        JSON.stringify(res.data.user)
-      );
+        // Save token
+        localStorage.setItem("token", res.data.token);
 
-      setToken(res.data.token);
-      setUser(res.data.user);
+        // Save user details
+        localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // Navigate to dashboard
-      navigate("/dashboard");
+        setToken(res.data.token);
+        setUser(res.data.user);
+
+        // Navigate to dashboard
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error(err);
+
+      alert(err.response?.data?.message || "Login Failed");
+    } finally {
+      setLoading(false);
     }
-
-  } catch (err) {
-    console.error(err);
-
-    alert(
-      err.response?.data?.message ||
-      "Login Failed"
-    );
-
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // Signup
-  const signup = async () => {
+  const signup = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
 
       const res = await axios.post(
         `${backendUrl}/api/auth/register`,
-        signupData
+        signupData,
       );
 
       if (res.data.success) {
+        setSignupData({ fullName: "", email: "", password: "" });
+
         navigate("/login");
       }
     } catch (err) {
@@ -125,12 +93,9 @@ export const AuthContextProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      await axios.post(
-        `${backendUrl}/api/auth/forgot-password`,
-        {
-          email: forgotEmail,
-        }
-      );
+      await axios.post(`${backendUrl}/api/auth/forgot-password`, {
+        email: forgotEmail,
+      });
 
       navigate("/login");
     } catch (err) {
@@ -153,6 +118,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const value = {
     backendUrl,
+    frontendUrl,
 
     user,
     setUser,
@@ -177,12 +143,8 @@ export const AuthContextProvider = ({ children }) => {
     logout,
 
     navigate,
-    domainName
+    domainName,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
