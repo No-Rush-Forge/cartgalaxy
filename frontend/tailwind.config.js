@@ -43,7 +43,7 @@ export default {
         receipt: "#FFFDF7",
       },
       fontFamily: {
-        display: ["'Space Grotesk'", "sans-serif"],
+        display: ["'Inter'", "sans-serif"],
         body: ["'DM Sans'", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
       },

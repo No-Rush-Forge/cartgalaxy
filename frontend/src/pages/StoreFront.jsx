@@ -10,7 +10,7 @@ import { StoreFooter } from "@/components/storefront/StoreFooter";
 import { mockStore } from "@/data/mockStore";
 import { categories, products } from "@/data/mockProducts";
 
- function StoreFront() {
+function StoreFront() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -18,14 +18,20 @@ import { categories, products } from "@/data/mockProducts";
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
 
-  const featuredProducts = useMemo(() => products.filter((p) => p.featured).slice(0, 4), []);
+  const featuredProducts = useMemo(
+    () => products.filter((p) => p.featured).slice(0, 4),
+    [],
+  );
 
   const filteredProducts = useMemo(() => {
     const term = search.trim().toLowerCase();
     return products.filter((product) => {
       const matchesSearch =
-        !term || product.name.toLowerCase().includes(term) || product.category.toLowerCase().includes(term);
-      const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+        !term ||
+        product.name.toLowerCase().includes(term) ||
+        product.category.toLowerCase().includes(term);
+      const matchesCategory =
+        activeCategory === "All" || product.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
   }, [search, activeCategory]);
@@ -42,7 +48,9 @@ import { categories, products } from "@/data/mockProducts";
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item,
         );
       }
       return [...prev, { ...product, quantity }];
@@ -51,14 +59,23 @@ import { categories, products } from "@/data/mockProducts";
   };
 
   const increaseQuantity = (id) =>
-    setCartItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item)));
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
+    );
 
   const decreaseQuantity = (id) =>
     setCartItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity: Math.max(1, item.quantity - 1) } : item))
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+          : item,
+      ),
     );
 
-  const removeItem = (id) => setCartItems((prev) => prev.filter((item) => item.id !== id));
+  const removeItem = (id) =>
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
 
   const handleCategorySelect = (category) => {
     setActiveCategory(category);
@@ -76,40 +93,69 @@ import { categories, products } from "@/data/mockProducts";
       />
 
       <StoreHero
+      
         storeName={mockStore.name}
         description={mockStore.description}
-        onShopClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}
+        onShopClick={() =>
+          document
+            .getElementById("products")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
       />
 
-      <section id="categories" className="py-6">
+      {/* <section id="categories" className="py-6">
         <div className="container">
-          <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">Shop by Category</h2>
+          <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">
+            Shop by Category
+          </h2>
         </div>
-      </section>
-      <CategoryList categories={categories} activeCategory={activeCategory} onSelect={handleCategorySelect} />
+      </section> */}
 
-      <section className="py-10 md:py-14">
+      {/* <CategoryList
+        categories={categories}
+        activeCategory={activeCategory}
+        onSelect={handleCategorySelect}
+      /> */}
+
+      {/* <section className="py-10 md:py-14">
         <div className="container">
-          <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">Featured Products</h2>
+          <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">
+            Featured Products
+          </h2>
           <div className="mt-5">
-            <ProductGrid products={featuredProducts} onView={openDetails} onAddToCart={addToCart} />
+            <ProductGrid
+              products={featuredProducts}
+              onView={openDetails}
+              onAddToCart={addToCart}
+            />
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section id="products" className="py-10 md:py-14">
         <div className="container">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">All Products</h2>
+            <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">
+              All Products
+            </h2>
             <p className="text-sm text-ink-light dark:text-paper/60">
-              {filteredProducts.length} product{filteredProducts.length === 1 ? "" : "s"}
+              {filteredProducts.length} product
+              {filteredProducts.length === 1 ? "" : "s"}
             </p>
           </div>
           <div className="mt-3">
-            <CategoryList categories={categories} activeCategory={activeCategory} onSelect={setActiveCategory} />
+            <CategoryList
+              categories={categories}
+              activeCategory={activeCategory}
+              onSelect={setActiveCategory}
+            />
           </div>
           <div className="mt-5">
-            <ProductGrid products={filteredProducts} onView={openDetails} onAddToCart={addToCart} />
+            <ProductGrid
+              products={filteredProducts}
+              onView={openDetails}
+              onAddToCart={addToCart}
+            />
           </div>
         </div>
       </section>
@@ -120,13 +166,19 @@ import { categories, products } from "@/data/mockProducts";
             <h2 className="font-display text-lg font-semibold text-ink dark:text-paper">
               About {mockStore.name}
             </h2>
-            <p className="mt-3 text-balance text-ink-light dark:text-paper/70">{mockStore.description}</p>
+            <p className="mt-3 text-balance text-ink-light dark:text-paper/70">
+              {mockStore.description}
+            </p>
           </div>
         </div>
       </section>
 
       <div id="contact">
-        <StoreInfo location={mockStore.location} phone={mockStore.phone} email={mockStore.email} />
+        <StoreInfo
+          location={mockStore.location}
+          phone={mockStore.phone}
+          email={mockStore.email}
+        />
       </div>
 
       <StoreFooter storeName={mockStore.name} />
@@ -145,10 +197,12 @@ import { categories, products } from "@/data/mockProducts";
         onIncrease={increaseQuantity}
         onDecrease={decreaseQuantity}
         onRemove={removeItem}
-        onCheckout={() => console.log("Checkout — requires authentication (future feature)")}
+        onCheckout={() =>
+          console.log("Checkout — requires authentication (future feature)")
+        }
       />
     </div>
   );
 }
 
-export default StoreFront
+export default StoreFront;

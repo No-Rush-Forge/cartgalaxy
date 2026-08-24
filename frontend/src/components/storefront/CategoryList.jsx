@@ -2,7 +2,7 @@ export function CategoryList({ categories, activeCategory, onSelect, id }) {
   return (
     <section id={id} className="py-4">
       <div className="container">
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
           {["All", ...categories].map((category) => {
             const isActive = category === activeCategory;
             return (
