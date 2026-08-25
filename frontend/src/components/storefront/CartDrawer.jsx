@@ -66,7 +66,7 @@ export function CartDrawer({ open, onOpenChange, items, onIncrease, onDecrease, 
               );
             })}
           </div>
-        )} 
+        )}
 
         {items.length > 0 && (
           <div className="mt-4 space-y-4 border-t border-ink/10 pt-4 dark:border-paper/10">
