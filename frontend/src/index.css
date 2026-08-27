@@ -14,19 +14,39 @@ body {
   @apply bg-gold-400/60 text-ink;
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* Subtle paper grain texture used behind hero + footer */
 .bg-textured {
-  background-image: radial-gradient(circle at 1px 1px, rgba(22, 33, 29, 0.07) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(22, 33, 29, 0.07) 1px,
+    transparent 0
+  );
   background-size: 22px 22px;
 }
 .dark .bg-textured {
-  background-image: radial-gradient(circle at 1px 1px, rgba(246, 241, 228, 0.06) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(246, 241, 228, 0.06) 1px,
+    transparent 0
+  );
 }
 
 /* Perforated / receipt-edge divider used sparingly as a structural motif */
 .perforated-edge {
   height: 14px;
-  background-image: radial-gradient(circle at 7px 7px, transparent 6px, currentColor 6.5px);
+  background-image: radial-gradient(
+    circle at 7px 7px,
+    transparent 6px,
+    currentColor 6.5px
+  );
   background-size: 14px 14px;
   background-position: top;
   color: theme("colors.paper.DEFAULT");
