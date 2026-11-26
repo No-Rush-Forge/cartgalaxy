@@ -26,14 +26,16 @@ export default {
           card: "#16201C",
           line: "#243330",
         },
-        teal: {
-          50: "#E6F2EF",
-          100: "#C1E0D8",
-          400: "#1C8D77",
-          500: "#0F6B5C",
-          600: "#0C5449",
-          700: "#093F37",
-        },
+        
+teal: {
+  50: "rgb(var(--accent-50) / <alpha-value>)",
+  100: "rgb(var(--accent-100) / <alpha-value>)",
+  400: "rgb(var(--accent-400) / <alpha-value>)",
+  500: "rgb(var(--accent-500) / <alpha-value>)",
+  600: "rgb(var(--accent-600) / <alpha-value>)",
+  700: "rgb(var(--accent-700) / <alpha-value>)",
+},
+
         gold: {
           100: "#FBEAC6",
           400: "#F0BB5C",

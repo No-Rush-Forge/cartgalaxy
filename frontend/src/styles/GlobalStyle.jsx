@@ -24,16 +24,18 @@ const GlobalStyle = () => (
       --bg-0:#0d0f13; --bg-1:#171a21; --bg-2:#1e2229;
       --line:#2a2e37; --line-2:#363b46;
       --ink-0:#eceef1; --ink-1:#9ba0ac; --ink-2:#676c78;
-      --amber:#d99a4e; --amber-hi:#eab06a; --amber-dim:rgba(217,154,78,0.14);
+      --amber:var(--accent);
+--amber-hi:var(--accent-hover);
+--amber-dim:var(--accent-soft);
       --green:#3ecf8e; --red:#e5636a;
       font-family:'Inter',ui-sans-serif,system-ui,sans-serif;
       min-height:100vh;
       width:100%;
       position:relative;
       background:
-        radial-gradient(1100px 520px at 15% -8%, rgba(217,154,78,0.07), transparent 60%),
-        radial-gradient(900px 500px at 100% 100%, rgba(217,154,78,0.04), transparent 55%),
-        linear-gradient(160deg, #14161c 0%, #101217 45%, #0b0d11 100%);
+  radial-gradient(1100px 520px at 15% -8%, var(--amber-dim), transparent 60%),
+  radial-gradient(900px 500px at 100% 100%, var(--amber-dim), transparent 55%),
+  linear-gradient(160deg, #14161c 0%, #101217 45%, #0b0d11 100%);
       color:var(--ink-0);
       overflow:hidden;
     }
@@ -85,11 +87,11 @@ const GlobalStyle = () => (
 
     .logo-mark {
       width:34px; height:34px; border-radius:8px;
-      background:linear-gradient(155deg, var(--amber), #b97a34);
+      background:linear-gradient(155deg, var(--amber), var(--amber-hi));
       display:flex; align-items:center; justify-content:center;
       font-family:'JetBrains Mono', monospace; font-weight:600; font-size:14px;
       color:#0d0f13;
-      box-shadow: 0 6px 16px -4px rgba(217,154,78,0.45);
+      box-shadow: 0 6px 16px -4px var(--amber-dim);
     }
 
     .input-shell {
@@ -142,7 +144,7 @@ const GlobalStyle = () => (
       display:flex; align-items:center; justify-content:center; gap:8px;
       cursor:pointer;
       transition:filter .15s ease, transform .12s ease, box-shadow .15s ease;
-      box-shadow:0 8px 20px -8px rgba(217,154,78,0.55);
+      box-shadow:0 8px 20px -8px var(--amber-dim);
     }
     .btn-primary:hover:not(:disabled) { filter:brightness(1.08); transform:translateY(-1px); }
     .btn-primary:active:not(:disabled) { transform:translateY(0); }

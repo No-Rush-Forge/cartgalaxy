@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Upload, Copy, QrCode, Download, Store as StoreIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,10 @@ function Field({ label, required, className = "", children }) {
 export function StoreInformation({ store, onSave, onCancel }) {
   const [form, setForm] = useState({ ...EMPTY_STORE, ...(store || {}) });
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+  setForm({ ...EMPTY_STORE, ...(store || {}) });
+}, [store]);
 
   const update = (key) => (e) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
 

@@ -125,6 +125,7 @@ const loginUser = async (req, res) => {
       {
         user_id: user.user_id,
         email: user.email,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       {
@@ -135,8 +136,8 @@ const loginUser = async (req, res) => {
     // Update last login (optional for now)
     await pool.query(
       `UPDATE users
-   SET last_login = NOW()
-   WHERE user_id = $1`,
+     SET last_login = NOW()
+     WHERE user_id = $1`,
       [user.user_id],
     );
 
@@ -148,11 +149,10 @@ const loginUser = async (req, res) => {
         user_id: user.user_id,
         full_name: user.full_name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (err) {
-    console.log(err);
-
     return res.status(500).json({
       success: false,
       message: "Internal Server Error.",
