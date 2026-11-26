@@ -1,77 +1,68 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Mail, ArrowLeft } from "lucide-react";
-import AuthShell from "../components/AuthShell";
-import CardHeader from "../components/CardHeader";
-import FormField from "../components/FormField";
-import SubmitButton from "../components/SubmitButton";
-import SuccessBox from "../components/SuccessBox";
-import { validateEmail } from "../utils/validators";
+import { useContext } from "react";
+import { Mail, AlertCircle } from "lucide-react";
+import { AuthContext } from "@/context/AuthContext";
+import { Card } from "@/components/ui/card";
+import AuthShell from "@/components/auth/AuthShell";
+import CardHeader from "@/components/auth/CardHeader";
+import FormField from "@/components/auth/FormField";
+import SubmitButton from "@/components/auth/SubmitButton";
+import SuccessBox from "@/components/auth/SuccessBox";
 
-const ForgotPasswordPage = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const err = validateEmail(email);
-    setError(err);
-    if (err) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSent(true);
-    }, 1100);
-  };
+export function ForgotPassword() {
+  const { forgotEmail, setForgotEmail, submitError, loading, resetSent, requestPasswordReset, navigate } =
+    useContext(AuthContext);
 
   return (
     <AuthShell topLinkLabel="Log in →" topLinkAction={() => navigate("/login")}>
-      <div className="card" style={{ padding: 32 }}>
+      <Card className="p-8">
         <CardHeader
           eyebrow="Account recovery"
           title="Reset your password"
-          subtitle="Enter the email on your account and we'll send a reset link."
+          subtitle="Enter your email and we'll send you a reset link."
         />
 
-        {sent ? (
-          <SuccessBox title="Reset link sent">
-            A password reset link has been sent to <span style={{ color: "var(--ink-0)" }}>{email}</span>.
+        {resetSent ? (
+          <SuccessBox>
+            If an account exists for <strong>{forgotEmail}</strong>, a password reset link is on its way.
           </SuccessBox>
         ) : (
-          <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <form onSubmit={requestPasswordReset} className="flex flex-col gap-5">
             <FormField
               id="forgot-email"
-              label="Email address"
+              label="Email"
               icon={Mail}
-              placeholder="Enter your registered email"
-              value={email}
+              placeholder="Enter your email"
+              value={forgotEmail}
               autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
-              onBlur={() => setError(validateEmail(email))}
-              error={error}
+              onChange={(e) => setForgotEmail(e.target.value)}
             />
-            <SubmitButton loading={loading} loadingLabel="Sending link…">
+
+            {submitError && (
+              <div
+                role="alert"
+                className="flex items-center gap-2 rounded-xl bg-red-50 px-3.5 py-2.5 text-sm text-red-600 dark:bg-red-500/10 dark:text-red-400"
+              >
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                <span>{submitError}</span>
+              </div>
+            )}
+
+            <SubmitButton loading={loading} loadingLabel="Sending…">
               Send reset link
             </SubmitButton>
           </form>
         )}
-      </div>
-      <p style={{ textAlign: "center", fontSize: 13, marginTop: 22 }}>
+      </Card>
+
+      <p className="mt-5 text-center text-sm text-ink-light dark:text-paper/65">
+        Remembered your password?{" "}
         <button
-          className="text-link"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--ink-1)" }}
+          className="font-semibold text-teal-600 hover:underline dark:text-teal-100"
           onClick={() => navigate("/login")}
         >
-          <ArrowLeft size={13} />
           Back to login
         </button>
       </p>
     </AuthShell>
   );
-};
-
-export default ForgotPasswordPage;
+}

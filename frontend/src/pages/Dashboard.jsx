@@ -72,11 +72,11 @@ function SidebarContent({ onNavigate }) {
       </a>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.map((item,i) => {
           const Icon = item.icon;
           return (
             <a
-              key={item.label}
+              key={i}
               href={item.href}
               onClick={onNavigate}
               className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${item.active

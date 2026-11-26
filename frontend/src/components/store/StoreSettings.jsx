@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Image as ImageIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,8 +58,65 @@ function SettingsCard({ title, description, children }) {
   );
 }
 
-export function StoreSettings({ onSave }) {
+export function StoreSettings({ onSave, initialSettings  }) {
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
+
+  // Load settings received from the backend.
+useEffect(() => {
+  if (!initialSettings) return;
+
+  const savedPaymentMethods = initialSettings.payment_methods || [];
+
+  setSettings({
+    ...INITIAL_SETTINGS,
+
+    status: initialSettings.status ?? INITIAL_SETTINGS.status,
+    isOpen: initialSettings.is_open ?? INITIAL_SETTINGS.isOpen,
+
+    bannerTitle:
+      initialSettings.banner_title ?? INITIAL_SETTINGS.bannerTitle,
+
+    bannerSubtitle:
+      initialSettings.banner_subtitle ?? INITIAL_SETTINGS.bannerSubtitle,
+
+    about: initialSettings.about ?? INITIAL_SETTINGS.about,
+
+    hours: {
+      ...INITIAL_SETTINGS.hours,
+      ...(initialSettings.opening_hours || {}),
+    },
+
+    deliveryAvailable:
+      initialSettings.delivery_enabled ?? INITIAL_SETTINGS.deliveryAvailable,
+
+    pickupAvailable:
+      initialSettings.pickup_enabled ?? INITIAL_SETTINGS.pickupAvailable,
+
+    deliveryCharge:
+      String(initialSettings.delivery_charge ?? INITIAL_SETTINGS.deliveryCharge),
+
+    deliveryNotes:
+      initialSettings.delivery_notes ?? INITIAL_SETTINGS.deliveryNotes,
+
+    currency: initialSettings.currency ?? INITIAL_SETTINGS.currency,
+
+    paymentMethods: {
+      cash: savedPaymentMethods.includes("cash"),
+      upi: savedPaymentMethods.includes("upi"),
+      bankTransfer: savedPaymentMethods.includes("bankTransfer"),
+    },
+
+    contact: {
+      ...INITIAL_SETTINGS.contact,
+      ...(initialSettings.contact_links || {}),
+    },
+
+    seoTitle: initialSettings.seo_title ?? INITIAL_SETTINGS.seoTitle,
+
+    seoDescription:
+      initialSettings.seo_description ?? INITIAL_SETTINGS.seoDescription,
+  });
+}, [initialSettings]);
 
   const set = (key, value) => setSettings((prev) => ({ ...prev, [key]: value }));
   const setNested = (group, key, value) =>
